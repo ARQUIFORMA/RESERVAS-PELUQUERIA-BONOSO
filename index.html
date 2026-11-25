@@ -26,7 +26,7 @@
 --wood:#2b1a11;--wood2:#3b2518;--ivory:#f3e7d2;--ok:light-dark(#2f6b3a,#7cc58a);--bad:light-dark(#a3271c,#ee8a7c);--warn:light-dark(#8a5a00,#f0b95a)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
-html{scroll-behavior:smooth;scroll-padding-top:72px}
+html{scroll-behavior:smooth;scroll-padding-top:72px;overflow-x:clip}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Manrope,system-ui,sans-serif;overflow-x:clip}
 h1,h2,h3{font-family:"DM Serif Display",Georgia,serif;font-weight:400;line-height:1.05;text-wrap:balance;margin:0}
 h2{font-size:clamp(30px,4vw,44px)}h3{font-size:22px;margin-bottom:8px}
@@ -100,8 +100,9 @@ tr.hoy td{font-weight:700;color:var(--brass)}
 .tag button{border:0;background:none;color:var(--mute);font-size:18px;cursor:pointer;min-width:32px;min-height:32px}
 .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px;margin-top:18px;align-items:start}
 .hr{display:grid;grid-template-columns:6.5em 2.2em minmax(0,1fr);gap:6px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}.hr>:nth-child(4){grid-column:3}
+.hr input[type=time]{flex:1 1 0;width:100%;min-width:0}
 .hr input[type=time]{padding:8px 6px;font-size:15px}.hr input[type=checkbox]{width:22px;height:22px;min-height:0}
-.sv{display:grid;grid-template-columns:minmax(0,1fr) 5.5em auto;gap:6px;padding:8px 0;border-bottom:1px solid var(--line)}.sv input.t{grid-column:1/3}
+.sv{display:grid;grid-template-columns:minmax(0,1fr) 4.6em 4.6em auto;gap:6px;padding:8px 0;border-bottom:1px solid var(--line)}.sv input.t{grid-column:1/4}.sv input[type=number]{padding:10px 6px}
 .cl-row{padding:10px 0;border-bottom:1px solid var(--line)}
 .err{color:var(--bad);font-size:14px;min-height:1em}
 footer{background:var(--wood);color:#bca88d;font-size:14px}
@@ -122,8 +123,8 @@ footer{background:var(--wood);color:#bca88d;font-size:14px}
 .ticket,.okbox,.vale,.of-pub{animation:pop .55s cubic-bezier(.2,.8,.2,1.15) both}
 .of-pub .val{background:linear-gradient(110deg,var(--brass) 40%,#f6dc9c 50%,var(--brass) 60%);background-size:200% 100%;animation:shine 3.5s linear infinite;-webkit-background-clip:text;background-clip:text;color:transparent}
 .okbox svg path{stroke-dasharray:30;animation:check .6s .2s both}
-#pmsg{position:fixed;left:50%;bottom:22px;transform:translate(-50%,140%);z-index:20;background:var(--ink);color:var(--bg)!important;padding:12px 18px;border-radius:12px;box-shadow:0 10px 30px -10px #000a;max-width:min(92vw,520px);transition:transform .35s cubic-bezier(.2,.8,.2,1.2);pointer-events:none;margin:0}
-#pmsg.show{transform:translate(-50%,0)}
+#pmsg{position:fixed;left:50%;bottom:22px;transform:translate(-50%,140%);z-index:20;background:var(--ink);color:var(--bg)!important;padding:12px 18px;border-radius:12px;box-shadow:0 10px 30px -10px #000a;max-width:min(92vw,520px);transition:transform .35s cubic-bezier(.2,.8,.2,1.2),opacity .25s,visibility 0s .35s;pointer-events:none;margin:0;opacity:0;visibility:hidden}
+#pmsg.show{transform:translate(-50%,0);opacity:1;visibility:visible;transition-delay:0s}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 /* ---- ofertas, cupones, calendario, instalar ---- */
 .ofs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:14px;margin-top:18px}
@@ -144,9 +145,21 @@ footer{background:var(--wood);color:#bca88d;font-size:14px}
 .sw i:after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0005;transition:transform .25s cubic-bezier(.2,.8,.2,1.3)}
 .sw input:checked+i{background:var(--ok)}.sw input:checked+i:after{transform:translateX(20px)}.sw input:focus-visible+i{outline:3px solid var(--brass);outline-offset:2px}
 .wide{grid-column:1/-1}
-.ptabs{display:flex;gap:6px;margin:18px 0;padding:4px;background:var(--card);border:1px solid var(--line);border-radius:14px;position:sticky;top:58px;z-index:4}
-.ptabs button{flex:1 0 auto;font:700 15px Manrope,sans-serif;color:var(--mute);background:transparent;border:0;border-radius:10px;padding:10px 14px;min-height:44px;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s}
+.ptabw{display:flex;align-items:center;gap:4px;margin:18px 0;padding:4px;background:var(--card);border:1px solid var(--line);border-radius:14px;position:sticky;top:58px;z-index:4;box-shadow:0 8px 20px -16px #0008}
+.ptabw .pa{flex:none;width:40px;height:44px;border:0;border-radius:10px;background:transparent;color:var(--ink);font:700 22px/1 Manrope,sans-serif;cursor:pointer}.ptabw .pa:disabled{opacity:.25;cursor:default}.ptabw .pa:not(:disabled):hover{background:var(--bg)}
+.ptabs{display:flex;gap:6px;flex:1;min-width:0;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 12px),transparent);mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 12px),transparent);padding:0 6px}
+.ptabs::-webkit-scrollbar{display:none}
+.ptabs button{flex:0 0 auto;scroll-snap-align:center;font:700 15px Manrope,sans-serif;color:var(--mute);background:transparent;border:0;border-radius:10px;padding:10px 14px;min-height:44px;cursor:pointer;white-space:nowrap;transition:background .25s,color .25s}
 .ptabs button[aria-selected=true]{background:var(--ink);color:var(--bg)}.ptabs button:hover:not([aria-selected=true]){color:var(--ink)}
+.pdots{display:flex;justify-content:center;gap:6px;margin:-8px 0 14px}.pdots i{width:6px;height:6px;border-radius:99px;background:var(--line);transition:width .25s,background .25s}.pdots i.on{width:18px;background:var(--brass)}
+@media(min-width:1100px){.ptabw .pa,.pdots{display:none}.ptabs{-webkit-mask-image:none;mask-image:none}.ptabs button{flex:1 0 auto}}
+.ptab.izq.on{animation:entraI .35s both}.ptab.der.on{animation:entraD .35s both}
+@keyframes entraI{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:none}}@keyframes entraD{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+textarea{font:15px/1.45 Manrope,sans-serif;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-height:84px;resize:vertical}
+textarea:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.stats span{font-size:13px;font-weight:700;border:1px solid var(--line);border-radius:99px;padding:4px 10px}
+.vars{font-size:12px;color:var(--mute)}.vars code{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 5px;margin:0 2px}
+@media(max-width:600px){.hr{grid-template-columns:minmax(0,1fr) auto}.hr>span.row{grid-column:1/-1}.hr>:nth-child(4){grid-column:1/-1}.sv{grid-template-columns:minmax(0,1fr) 4.2em 4.2em}.sv .btn{grid-column:1/-1;justify-self:start}.sv input.t{grid-column:1/-1}}
 .ptab{display:none}.ptab.on{display:block;animation:pop .35s both}.ptab.grid2.on{display:grid}
 .grid2{grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:18px;align-items:start}
 .ptab .card+.card{margin-top:0}.ptab[data-pt=agenda]>.card+.card,.ptab[data-pt=agenda]>.wk+.card{margin-top:0}
@@ -169,15 +182,15 @@ footer{background:var(--wood);color:#bca88d;font-size:14px}
 </style>
 </head>
 <body>
-<nav><b>Bonoso</b><a href="#reservar">Reservar</a><a class="h" href="#ofertas" id="navOf" hidden>Ofertas</a><a class="h" href="#servicios">Servicios</a><a class="h" href="#visita">Cómo llegar</a><a class="adm" id="navAcc" href="#acceso">Entrar</a></nav>
+<nav><b id="brand">Bonoso</b><a href="#reservar">Reservar</a><a class="h" href="#ofertas" id="navOf" hidden>Ofertas</a><a class="h" href="#servicios">Servicios</a><a class="h" href="#visita">Cómo llegar</a><a class="adm" id="navAcc" href="#acceso">Entrar</a></nav>
 
 <div id="main">
 <header class="band hero"><div class="in">
   <div>
     <div><span class="pill" id="estado"><i></i><span>Comprobando horario…</span></span><span class="pill" id="ritmo" hidden><i></i><span></span></span></div>
-    <h1 style="margin:14px 0 10px">Bonoso</h1>
-    <p>Barbería clásica en L'Alfàs del Pi. Reserva tu cita en segundos: eliges servicio, ves los huecos libres y listo. Sin llamadas, sin esperas.</p>
-    <div class="row" style="margin-top:22px"><a class="btn" href="#reservar">Reservar cita</a><a class="btn g" href="#visita">Carrer l'Hort, 16</a></div>
+    <h1 style="margin:14px 0 10px" id="hNom">Bonoso</h1>
+    <p id="hLema">Barbería clásica en L'Alfàs del Pi. Reserva tu cita en segundos: eliges servicio, ves los huecos libres y listo. Sin llamadas, sin esperas.</p>
+    <div class="row" style="margin-top:22px"><a class="btn" href="#reservar">Reservar cita</a><a class="btn g" href="#visita" id="hDir">Carrer l'Hort, 16</a></div>
   </div>
   <svg class="scene" viewBox="0 0 520 420" role="img" aria-label="Sillón de barbero ante un espejo de latón, con el poste de barbería a la derecha">
     <defs>
@@ -250,8 +263,8 @@ footer{background:var(--wood);color:#bca88d;font-size:14px}
 </div></section>
 
 <section class="band visit" id="visita"><div class="in">
-  <h2>Cómo llegar</h2><p style="font-size:18px;margin:16px 0">Carrer l'Hort, 16<br>03580 L'Alfàs del Pi, Alicante</p>
-  <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Carrer%20l'Hort%2016%2C%20L'Alf%C3%A0s%20del%20Pi">Abrir en Google Maps</a>
+  <h2>Cómo llegar</h2><p style="font-size:18px;margin:16px 0" id="vDir">Carrer l'Hort, 16<br>03580 L'Alfàs del Pi, Alicante</p>
+  <div class="row"><a class="btn" id="vMap" href="https://www.google.com/maps/search/?api=1&query=Carrer%20l'Hort%2016%2C%20L'Alf%C3%A0s%20del%20Pi" target="_blank" rel="noopener">Abrir en Google Maps</a><a class="btn g" id="vTel" href="#" hidden style="color:var(--ivory);border-color:#ffffff40">Llamar</a></div>
 </div></section>
 </div>
 
@@ -260,10 +273,11 @@ footer{background:var(--wood);color:#bca88d;font-size:14px}
   <p class="note" id="pmode" style="margin:4px 0 0"></p><p class="err" id="pmsg" aria-live="polite" style="color:var(--brass);font-weight:700"></p>
   <div id="pLogin" style="max-width:420px"></div>
   <div id="pbody">
-  <div class="ptabs scroll" role="tablist" id="ptabs"><button type="button" role="tab" data-pt="agenda">Agenda</button><button type="button" role="tab" data-pt="horario">Horario y cierres</button><button type="button" role="tab" data-pt="servicios">Servicios y reservas</button><button type="button" role="tab" data-pt="clientes">Clientes y ofertas</button><button type="button" role="tab" data-pt="avisos">Avisos y ajustes</button></div>
+  <div class="ptabw"><button type="button" class="pa" data-dir="-1" aria-label="Pestaña anterior">‹</button><div class="ptabs" role="tablist" id="ptabs"><button type="button" role="tab" data-pt="agenda">Agenda</button><button type="button" role="tab" data-pt="horario">Horario y cierres</button><button type="button" role="tab" data-pt="servicios">Servicios y reservas</button><button type="button" role="tab" data-pt="clientes">Clientes y ofertas</button><button type="button" role="tab" data-pt="avisos">Avisos y mensajes</button><button type="button" role="tab" data-pt="negocio">Negocio y equipo</button></div><button type="button" class="pa" data-dir="1" aria-label="Pestaña siguiente">›</button></div>
+  <div class="pdots" id="pdots" aria-hidden="true"></div>
   <div class="ptab" data-pt="agenda">
   <div class="card live">
-    <div><p class="note" style="margin:0">Ahora mismo</p><div class="now" id="lNow"></div><p id="lNext" style="margin:6px 0 0"></p></div>
+    <div><p class="note" style="margin:0">Ahora mismo</p><div class="now" id="lNow"></div><p id="lNext" style="margin:6px 0 0"></p><div class="stats" id="lStats"></div></div>
     <div><button class="btn xl" id="bLive" type="button"></button>
       <div class="row" style="margin-top:10px"><span class="note" style="margin-right:auto">Retraso que ven los clientes: <strong id="lRet"></strong></span><button class="btn g s" data-ret="-5" type="button">−5</button><button class="btn g s" data-ret="5" type="button">+5</button><button class="btn g s" data-ret="0" type="button">En hora</button></div></div>
   </div>
@@ -293,6 +307,9 @@ footer{background:var(--wood);color:#bca88d;font-size:14px}
       <label for="rTol">Margen de retraso que aceptas</label><select id="rTol"><option value="0">Sin margen: nunca se pisan</option><option value="5">5 minutos</option><option value="10">10 minutos</option><option value="15">15 minutos</option></select>
       <p class="note">Deja encajar una cita aunque acabe esos minutos tarde (pisando la siguiente o la hora de cierre).</p>
       <label for="rPaso">Horas en la rejilla</label><select id="rPaso"><option value="5">Cada 5 minutos</option><option value="10">Cada 10 minutos</option><option value="15">Cada 15 minutos</option><option value="30">Cada 30 minutos</option></select>
+      <div class="row e"><div style="flex:1 1 150px"><label for="rAnt">Antelación mínima</label><select id="rAnt"><option value="0">Sin mínimo</option><option value="15">15 minutos</option><option value="30">30 minutos</option><option value="60">1 hora</option><option value="120">2 horas</option><option value="240">4 horas</option><option value="1440">1 día</option></select></div>
+      <div style="flex:1 1 150px"><label for="rDias">Reservar hasta</label><select id="rDias"><option value="7">1 semana vista</option><option value="14">2 semanas vista</option><option value="21">3 semanas vista</option><option value="30">1 mes vista</option><option value="60">2 meses vista</option><option value="90">3 meses vista</option></select></div></div>
+      <label for="rCan">El cliente puede cancelar hasta</label><select id="rCan"><option value="0">Hasta el último momento</option><option value="1">1 hora antes</option><option value="2">2 horas antes</option><option value="4">4 horas antes</option><option value="12">12 horas antes</option><option value="24">24 horas antes</option><option value="48">48 horas antes</option></select>
       <button class="btn" id="sRes" type="button" style="margin-top:14px">Guardar ajustes de reserva</button></div>
   </div>
   <div class="ptab grid2" data-pt="clientes">
@@ -304,13 +321,39 @@ footer{background:var(--wood);color:#bca88d;font-size:14px}
     <div class="card wide"><div class="row"><h3 style="margin:0 auto 0 0">Ofertas</h3><button class="btn g s" id="aOf" type="button">Nueva oferta</button><button class="btn s" id="sOf" type="button">Guardar ofertas</button></div>
       <p class="note">Cada oferta se enciende o apaga con su interruptor. Puedes limitarla a fechas, días de la semana, servicios o solo a clientes con cuenta.</p><div id="eOf"></div></div>
   </div>
+  <div class="ptab grid2" data-pt="negocio">
+    <div class="card"><h3>Datos del negocio</h3><p class="note">Salen en la web, en los correos y en los mensajes.</p>
+      <label for="nNom">Nombre completo</label><input id="nNom" maxlength="60" placeholder="Barbería Bonoso">
+      <label for="nCor">Nombre corto (cabecera y portada)</label><input id="nCor" maxlength="24" placeholder="Bonoso">
+      <label for="nLem">Frase de portada</label><textarea id="nLem" maxlength="220"></textarea>
+      <label for="nDir">Dirección</label><input id="nDir" maxlength="120" placeholder="Calle, número · Código postal Pueblo">
+      <label for="nTel">Teléfono (opcional, sale un botón «Llamar»)</label><input id="nTel" type="tel" maxlength="20">
+      <label for="nMap">Enlace de Google Maps (opcional)</label><input id="nMap" type="url" maxlength="300" placeholder="Si lo dejas vacío se busca la dirección">
+      <button class="btn" id="sNeg" type="button" style="margin-top:14px">Guardar datos del negocio</button></div>
+    <div class="card"><h3>Equipo</h3><p class="note">Personas con acceso a este panel. Para añadir a alguien: que cree su cuenta y, en «Clientes y ofertas», pulsa «Dar acceso de barbero».</p><div id="eqL"></div></div>
+  </div>
   <div class="ptab grid2" data-pt="avisos">
+    <div class="card"><h3>Mensajes automáticos</h3>
+      <label class="sw"><input type="checkbox" id="aConf"><i></i>Correo de confirmación al reservar</label>
+      <label class="sw"><input type="checkbox" id="aRec"><i></i>Correo de recordatorio</label>
+      <label for="aHor">Enviar el recordatorio</label><select id="aHor"><option value="2">2 horas antes</option><option value="6">6 horas antes</option><option value="12">12 horas antes</option><option value="24">24 horas antes</option><option value="48">48 horas antes</option></select>
+      <label for="aWa">WhatsApp: confirmación de cita por teléfono</label><textarea id="aWa" maxlength="400"></textarea>
+      <label for="aRwa">WhatsApp: recordatorio</label><textarea id="aRwa" maxlength="400"></textarea>
+      <label for="aLl">Respuesta a llamada perdida</label><textarea id="aLl" maxlength="400"></textarea>
+      <p class="vars">Puedes usar: <code>{nombre}</code><code>{fecha}</code><code>{hora}</code><code>{servicio}</code><code>{negocio}</code><code>{direccion}</code><code>{enlace}</code></p>
+      <button class="btn" id="sAv" type="button" style="margin-top:8px">Guardar mensajes</button></div>
     <div class="card"><h3>Avisos</h3><p class="note">Los correos de confirmación y recordatorio salen solos desde tu Gmail. WhatsApp: un toque abre el mensaje ya escrito.</p><p class="step">Próximas 48 horas</p><div id="rec"></div>
       <p class="step">Llamada perdida</p><div class="row e"><div style="flex:1 1 140px"><label for="ll">Número que llama</label><input id="ll" type="tel" value="612 345 678"></div><button class="btn g" id="bll" type="button">Simular</button></div><div id="llr"></div></div>
     <div class="card"><h3>Verificación de cuentas</h3><p class="note">Al crear la cuenta se envía un código para comprobar que el correo o el teléfono son del cliente. Las cuentas ya creadas no se ven afectadas.</p>
       <label class="sw"><input type="checkbox" id="vEm"><i></i>Verificar el correo</label>
       <label class="sw"><input type="checkbox" id="vTe"><i></i>Verificar el teléfono por SMS</label><p class="note" id="vSms"></p>
-      <button class="btn" id="sVer" type="button" style="margin-top:12px">Guardar verificación</button></div>
+      <button class="btn" id="sVer" type="button" style="margin-top:12px">Guardar verificación</button>
+      <details style="margin-top:14px"><summary style="cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:700">Conectar SMS (Twilio)</summary>
+        <p class="note">Crea una cuenta en twilio.com y compra un número con SMS. Copia aquí los datos de su consola. El token se guarda en Google y no se vuelve a mostrar.</p>
+        <label for="tSid">Account SID</label><input id="tSid" autocomplete="off" spellcheck="false" placeholder="AC…">
+        <label for="tTok">Auth token</label><input id="tTok" type="password" autocomplete="new-password" placeholder="Pega el token">
+        <label for="tFrom">Número de Twilio</label><input id="tFrom" type="tel" placeholder="+34…">
+        <div class="row" style="margin-top:12px"><button class="btn" id="sSms" type="button">Guardar SMS</button><button class="btn g s" id="pSms" type="button">Enviarme un SMS de prueba</button><button class="btn r s" id="bSms" type="button">Desconectar</button></div></details></div>
     <div class="card"><h3>Pago con tarjeta</h3><p class="note">Para el futuro. El cobro lo hace Stripe con su propia página segura: la app nunca ve los datos de la tarjeta y el dinero va directo a tu cuenta bancaria.</p>
       <label class="sw"><input type="checkbox" id="pAct"><i></i>Ofrecer pago online al reservar</label>
       <label for="pEnl">Enlace de pago de Stripe</label><input id="pEnl" type="url" placeholder="https://buy.stripe.com/..." maxlength="200">
@@ -321,7 +364,7 @@ footer{background:var(--wood);color:#bca88d;font-size:14px}
   </div>
 </div></section>
 
-<footer class="band"><div class="in row" style="justify-content:space-between"><span>Barbería Bonoso · Carrer l'Hort, 16 · L'Alfàs del Pi</span><a href="#acceso">Acceso clientes y barbero</a></div></footer>
+<footer class="band"><div class="in row" style="justify-content:space-between"><span id="fPie">Barbería Bonoso · Carrer l'Hort, 16 · L'Alfàs del Pi</span><a href="#acceso">Acceso clientes y barbero</a></div></footer>
 <div id="inst" hidden role="dialog" aria-label="Instalar la app"><img src="icon-192.png" alt=""><b>Instala Bonoso en tu móvil</b><p id="instTxt">Reserva en dos toques desde tu pantalla de inicio, como una app.</p><div class="row"><button class="btn g s" type="button" id="instNo">Ahora no</button><button class="btn s" type="button" id="instSi">Instalar</button></div></div>
 
 <script>
@@ -332,8 +375,10 @@ const API_URL='https://script.google.com/macros/s/AKfycbzaHOVI1m1ppRTOwcb7DkNZoz
 const DIAS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],MES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 const DEF={horario:{0:[],1:[],2:['09:00-13:30','16:00-20:00'],3:['09:00-13:30','16:00-20:00'],4:['09:00-13:30','16:00-20:00'],5:['09:00-13:30','16:00-20:00'],6:['09:00-14:00']},
  servicios:[{id:'corte',n:'Corte clásico',d:30,t:'Tijera y máquina, lavado y peinado'},{id:'fade',n:'Degradado',d:40,t:'Fade a navaja o máquina con acabado a detalle'},{id:'combo',n:'Corte y barba',d:45,t:'Corte completo y arreglo de barba'},{id:'barba',n:'Arreglo de barba',d:20,t:'Perfilado, recorte y aceite'},{id:'navaja',n:'Afeitado a navaja',d:30,t:'Toalla caliente y navaja clásica'},{id:'nino',n:'Corte infantil',d:20,t:'Hasta 12 años'}],
- festivos:[],dias:[],franjas:[],fidelidad:{activo:false,bienvenida:'',cada:5,premio:'un corte gratis'},ofertas:[],pago:{activo:false,enlace:''},reserva:{inteligente:true,tolerancia:5,paso:15},verificacion:{email:false,tel:false}};
-const STEP=15,MARGEN=30;
+ festivos:[],dias:[],franjas:[],fidelidad:{activo:false,bienvenida:'',cada:5,premio:'un corte gratis'},ofertas:[],pago:{activo:false,enlace:''},reserva:{inteligente:true,tolerancia:5,paso:15,antelacion:30,diasVista:30,cancelarHoras:2},verificacion:{email:false,tel:false},
+ negocio:{nombre:'Barbería Bonoso',corto:'Bonoso',lema:'',direccion:"Carrer l'Hort, 16 · 03580 L'Alfàs del Pi, Alicante",telefono:'',mapa:''},
+ avisos:{confirmacion:true,recordatorio:true,horas:24,wa:'Hola {nombre}, te confirmamos tu cita en {negocio}: {fecha} a las {hora} ({servicio}). {direccion}. ¡Te esperamos!',recordatorioWa:'Hola {nombre}, te recordamos tu cita en {negocio} el {fecha} a las {hora}. Si no puedes venir, avísanos.',llamada:'¡Hola! Somos {negocio}. Ahora mismo estamos con un cliente y no podemos coger el teléfono. Reserva tu cita en segundos aquí: {enlace} ✂️'}};
+const STEP=15,MARG=()=>CFG.reserva.antelacion;
 const clone=o=>JSON.parse(JSON.stringify(o));
 let CFG=clone(DEF),SES=null,ADMIN=false,RECOVERY=null,TAB='entrar',TOKEN=null;
 const S={ocupado:[],directo:null,perfil:null,mis:[],visita:null,citas:[],perfiles:{},visitas:{}};
@@ -355,6 +400,17 @@ const mailOk=s=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 function ahora(){const p={};for(const x of new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date()))p[x.type]=x.value;return{f:`${p.year}-${p.month}-${p.day}`,m:+p.hour*60+ +p.minute}}
 const SV=()=>CFG.servicios.length?CFG.servicios:DEF.servicios;
 const setH=(el,h)=>{if(el&&el._h!==h){el.innerHTML=h;el._h=h}};
+const eur=n=>(Math.round(n*100)/100).toLocaleString('es-ES',{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2})+' €';
+const enlaceWeb=()=>location.origin+location.pathname;
+function tpl(t,v){return String(t||'').replace(/\{(\w+)\}/g,(m,k)=>k in v?v[k]:m)}
+function vars(o){const N=CFG.negocio;return{nombre:o.nombre||'',fecha:o.fecha?largo(o.fecha):'',hora:o.ini!=null?hm(o.ini):'',servicio:o.servicio||'',negocio:N.nombre,direccion:N.direccion,enlace:enlaceWeb()}}
+function waLink(tel,txt){const dg=String(tel||'').replace(/\D/g,'');return dg.length>=9?'https://wa.me/'+(dg.length===9?'34'+dg:dg)+'?text='+encodeURIComponent(txt):''}
+function mapaUrl(){const N=CFG.negocio;return N.mapa||'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(N.direccion.replace(/·/g,','))}
+function txt(el,v){if(el&&el.textContent!==v)el.textContent=v}
+function renderNegocio(){const N=CFG.negocio;if(document.title!==N.nombre)document.title=N.nombre;txt($('#brand'),N.corto);txt($('#hNom'),N.corto);if(N.lema)txt($('#hLema'),N.lema);
+ txt($('#hDir'),N.direccion.split(/[·,]/)[0].trim());txt($('#fPie'),N.nombre+' · '+N.direccion);
+ const vd=$('#vDir'),h=esc(N.direccion).replace(/\s*·\s*/,'<br>');if(vd._h!==h){vd.innerHTML=h;vd._h=h}
+ $('#vMap').href=mapaUrl();const t=$('#vTel');t.hidden=!N.telefono;if(N.telefono){t.href='tel:'+N.telefono.replace(/[^\d+]/g,'');txt(t,'Llamar · '+N.telefono)}}
 const MESL=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const STRIPE=/^https:\/\/(buy|checkout|donate)\.stripe\.com\//;
 /* ===== Ofertas y vales ===== */
@@ -373,7 +429,7 @@ function promosPara(f,serv){const r=misVales().map(x=>({...x,ok:true}));
 const sb=/^https:\/\/script\.google\.com\//.test(API_URL);
 try{TOKEN=localStorage.getItem('bonoso_token')}catch(e){}
 function guardarToken(t){TOKEN=t;try{t?localStorage.setItem('bonoso_token',t):localStorage.removeItem('bonoso_token')}catch(e){}}
-async function api(action,data={}){const r=await fetch(API_URL,{method:'POST',body:JSON.stringify({action,token:TOKEN,...data})});const j=await r.json();
+async function api(action,data={}){const r=await fetch(API_URL,{method:'POST',body:JSON.stringify({...data,action,token:TOKEN})});const j=await r.json();
  if(!j.ok){const e=new Error(j.error||'error');e.code=j.error;if(j.error==='sesion'){guardarToken(null);SES=null}throw e}return j}
 
 /* ===== Motor de disponibilidad (el servidor vuelve a validar al reservar) ===== */
@@ -381,14 +437,14 @@ function horDia(w){return(CFG.horario[w]||[]).map(r=>r.split('-').map(toMin)).fi
 function turnos(f){if(CFG.festivos.includes(f)||CFG.dias.includes(f))return[];return horDia(parse(f).getDay())}
 function motivoCierre(f){if(CFG.festivos.includes(f))return'ese día es festivo';if(CFG.dias.includes(f))return'la barbería está cerrada ese día';const d=DIAS[parse(f).getDay()];if(!horDia(parse(f).getDay()).length)return'los '+(d.endsWith('s')?d:d+'s')+' cerramos';return''}
 function ocupaciones(f){return S.ocupado.filter(o=>o.fecha===f).map(o=>[o.ini,o.ini+o.dur]).concat(CFG.franjas.filter(b=>b.fecha===f).map(b=>[b.desde,b.hasta]))}
-function libre(f,t,dur,margen=MARGEN){const T=turnos(f),tl=CFG.reserva.tolerancia;
+function libre(f,t,dur,margen=MARG()){const T=turnos(f),tl=CFG.reserva.tolerancia;
  if(!T.some(([a,b])=>t>=a&&t<b&&t+dur<=b+tl))return'fuera';const n=ahora();if(f<n.f||(f===n.f&&t<n.m+margen))return'pasado';
  if(CFG.franjas.some(b=>b.fecha===f&&t<b.hasta&&t+dur>b.desde))return'ocupado';
  let pis=0;for(const o of S.ocupado){if(o.fecha!==f)continue;const sl=Math.min(t+dur,o.ini+o.dur)-Math.max(t,o.ini);if(sl>0){if(o.ini<=t&&o.ini+o.dur>=t+dur)return'ocupado';pis+=sl}}
  return pis>tl?'ocupado':''}
 /* Huecos inteligentes: además de la rejilla, ofrece la hora justo al acabar cada cita y la que acaba justo al empezar la siguiente.
    Luego, en cada hueco libre, se queda con las horas que no dejan "restos" donde no cabe ningún servicio. */
-function huecos(f,dur,margen=MARGEN){const T=turnos(f);if(!T.length)return[];const Rv=CFG.reserva,tl=Rv.tolerancia,paso=Rv.paso||STEP,n=ahora();
+function huecos(f,dur,margen=MARG()){const T=turnos(f);if(!T.length)return[];const Rv=CFG.reserva,tl=Rv.tolerancia,paso=Rv.paso||STEP,n=ahora();
  const occ=ocupaciones(f).sort((a,b)=>a[0]-b[0]),C=new Set();
  for(const[a,b]of T){for(let t=a;t<b;t+=paso)C.add(t);if(Rv.inteligente){C.add(b-dur);if(tl)C.add(b-dur+tl)}}
  if(Rv.inteligente){for(const[s,e]of occ){C.add(e);C.add(s-dur);if(tl)C.add(s-dur+tl)}if(f===n.f)C.add(Math.ceil((n.m+margen)/5)*5)}
@@ -402,7 +458,7 @@ function huecos(f,dur,margen=MARGEN){const T=turnos(f);if(!T.length)return[];con
   const w=((gb>0&&gb<minD?gb:0)+(ga>0&&ga<minD?ga:0))*100+pis,k=pe+'-'+ns;(G[k]=G[k]||[]).push({t,w})}
  const r=[];for(const k in G){const m=Math.min(...G[k].map(x=>x.w));G[k].filter(x=>x.w===m).forEach(x=>r.push(x.t))}
  return r.sort((a,b)=>a-b)}
-function alternativas(f,t,dur){const near=h=>h.slice().sort((x,y)=>Math.abs(x-t)-Math.abs(y-t));const r=near(huecos(f,dur)).slice(0,2).map(x=>({f,t:x}));for(let i=1;i<=60&&r.length<3;i++){const g=addD(f,i),h=huecos(g,dur);if(h.length)r.push({f:g,t:near(h)[0]})}return r}
+function alternativas(f,t,dur){const near=h=>h.slice().sort((x,y)=>Math.abs(x-t)-Math.abs(y-t));const r=near(huecos(f,dur)).slice(0,2).map(x=>({f,t:x}));for(let i=1;i<=CFG.reserva.diasVista&&r.length<3;i++){const g=addD(f,i);if(g>addD(ahora().f,CFG.reserva.diasVista))break;const h=huecos(g,dur);if(h.length)r.push({f:g,t:near(h)[0]})}return r}
 const MOT={fuera:'está fuera del horario de ese día',pasado:'esa hora ya ha pasado o está demasiado cerca',ocupado:'ya hay una cita a esa hora',cerrado:'la barbería está cerrada ese día'};
 function validar(f,t,dur){const why=libre(f,t,dur);if(!why)return{ok:true};return{ok:false,txt:why==='fuera'?(motivoCierre(f)||MOT.fuera):MOT[why],alt:alternativas(f,t,dur)}}
 function estadoAhora(){const n=ahora(),T=turnos(n.f);const dentro=T.find(([a,b])=>n.m>=a&&n.m<b);if(dentro)return{on:true,txt:'Abierto ahora · hasta las '+hm(dentro[1])};const luego=T.find(([a])=>a>n.m);if(luego)return{on:false,txt:'Cerrado ahora · abrimos hoy a las '+hm(luego[0])};for(let i=1;i<30;i++){const g=addD(n.f,i),G=turnos(g);if(G.length)return{on:false,txt:'Cerrado hoy · abrimos '+(i===1?'mañana':'el '+largo(g))+' a las '+hm(G[0][0])}}return{on:false,txt:'Cerrado'}}
@@ -411,12 +467,15 @@ function retrasoHoy(){const d=S.directo,n=ahora();return d&&d.fecha===n.f&&num(d
 /* ===== Datos ===== */
 function sanCfg(v){const c=clone(DEF);if(!v||typeof v!=='object')return c;
  if(v.horario&&typeof v.horario==='object')for(let w=0;w<7;w++)c.horario[w]=Array.isArray(v.horario[w])?v.horario[w].filter(r=>typeof r==='string'&&/^\d{2}:\d{2}-\d{2}:\d{2}$/.test(r)):[];
- if(Array.isArray(v.servicios))c.servicios=v.servicios.filter(s=>s&&typeof s.n==='string'&&num(s.d)&&s.d>0).map(s=>({id:String(s.id||nid()),n:s.n,d:s.d,t:typeof s.t==='string'?s.t:''}));
+ if(Array.isArray(v.servicios))c.servicios=v.servicios.filter(s=>s&&typeof s.n==='string'&&num(s.d)&&s.d>0).map(s=>({id:String(s.id||nid()),n:s.n,d:s.d,t:typeof s.t==='string'?s.t:'',p:num(s.p)&&s.p>0?s.p:0}));
  for(const k of['festivos','dias'])if(Array.isArray(v[k]))c[k]=v[k].filter(okF);
  if(Array.isArray(v.franjas))c.franjas=v.franjas.filter(b=>b&&okF(b.fecha)&&num(b.desde)&&num(b.hasta));
  if(v.fidelidad&&typeof v.fidelidad==='object'){const f=v.fidelidad;c.fidelidad={activo:!!f.activo,bienvenida:typeof f.bienvenida==='string'?f.bienvenida:'',cada:num(f.cada)&&f.cada>=2?f.cada:5,premio:typeof f.premio==='string'?f.premio:''}}
  if(Array.isArray(v.ofertas))c.ofertas=v.ofertas.filter(o=>o&&typeof o.titulo==='string').map(o=>({id:String(o.id||nid()),titulo:o.titulo.slice(0,60),tipo:['porcentaje','euros','regalo'].includes(o.tipo)?o.tipo:'porcentaje',valor:num(o.valor)?o.valor:0,texto:typeof o.texto==='string'?o.texto.slice(0,80):'',activo:!!o.activo,desde:okF(o.desde)?o.desde:'',hasta:okF(o.hasta)?o.hasta:'',dias:Array.isArray(o.dias)?o.dias.filter(d=>Number.isInteger(d)&&d>=0&&d<7):[],servicios:Array.isArray(o.servicios)?o.servicios.filter(x=>typeof x==='string'):[],cuenta:!!o.cuenta,unaVez:!!o.unaVez}));
- if(v.reserva&&typeof v.reserva==='object'){const r=v.reserva;c.reserva={inteligente:r.inteligente!==false,tolerancia:[0,5,10,15].includes(r.tolerancia)?r.tolerancia:5,paso:[5,10,15,30].includes(r.paso)?r.paso:15}}
+ if(v.reserva&&typeof v.reserva==='object'){const r=v.reserva;c.reserva={inteligente:r.inteligente!==false,tolerancia:[0,5,10,15].includes(r.tolerancia)?r.tolerancia:5,paso:[5,10,15,30].includes(r.paso)?r.paso:15,antelacion:num(r.antelacion)&&r.antelacion>=0&&r.antelacion<=2880?r.antelacion:30,diasVista:num(r.diasVista)&&r.diasVista>=1&&r.diasVista<=120?r.diasVista:30,cancelarHoras:num(r.cancelarHoras)&&r.cancelarHoras>=0&&r.cancelarHoras<=168?r.cancelarHoras:2}}
+ const tx=(x,max,def)=>typeof x==='string'?x.slice(0,max):def;
+ if(v.negocio&&typeof v.negocio==='object'){const n=v.negocio,d=c.negocio;c.negocio={nombre:tx(n.nombre,60,d.nombre)||d.nombre,corto:tx(n.corto,24,d.corto)||d.corto,lema:tx(n.lema,220,''),direccion:tx(n.direccion,120,d.direccion),telefono:tx(n.telefono,20,''),mapa:typeof n.mapa==='string'&&/^https:\/\//.test(n.mapa)?n.mapa.slice(0,300):''}}
+ if(v.avisos&&typeof v.avisos==='object'){const a=v.avisos,d=c.avisos;c.avisos={confirmacion:a.confirmacion!==false,recordatorio:a.recordatorio!==false,horas:[2,6,12,24,48].includes(a.horas)?a.horas:24,wa:tx(a.wa,400,d.wa)||d.wa,recordatorioWa:tx(a.recordatorioWa,400,d.recordatorioWa)||d.recordatorioWa,llamada:tx(a.llamada,400,d.llamada)||d.llamada}}
  if(v.verificacion&&typeof v.verificacion==='object')c.verificacion={email:!!v.verificacion.email,tel:!!v.verificacion.tel};
  if(v.pago&&typeof v.pago==='object')c.pago={activo:!!v.pago.activo,enlace:typeof v.pago.enlace==='string'&&STRIPE.test(v.pago.enlace)?v.pago.enlace:''};
  return c}
@@ -431,26 +490,26 @@ async function cargarPublico(){if(!sb)return;try{const a=await api('estado');
 async function cargarUsuario(){if(!sb)return;if(!TOKEN){SES=null;S.perfil=null;S.mis=[];S.visita=null;S.citas=[];S.perfiles={};S.visitas={};ADMIN=false;render();return}
  try{const y=await api('yo');S.perfil=y.user;SES={user:{id:y.user.id,email:y.user.email}};S.mis=y.citas||[];S.visita=y.visita;ADMIN=!!y.user.is_admin;if(ADMIN)await cargarAdmin()}
  catch(e){if(e.code==='sesion'){S.perfil=null;S.mis=[];ADMIN=false}}render()}
-async function cargarAdmin(){const a=await api('adminDatos');S.smsListo=!!a.smsListo;S.citas=a.citas||[];S.perfiles=Object.fromEntries((a.usuarios||[]).map(x=>[x.id,x]));S.visitas=Object.fromEntries((a.visitas||[]).map(x=>[x.user_id,x]))}
+async function cargarAdmin(){const a=await api('adminDatos');S.smsListo=!!a.smsListo;S.smsFrom=a.smsFrom||'';S.citas=a.citas||[];S.perfiles=Object.fromEntries((a.usuarios||[]).map(x=>[x.id,x]));S.visitas=Object.fromEntries((a.visitas||[]).map(x=>[x.user_id,x]))}
 
 async function wCfg(){await api('guardarConfig',{config:CFG});render()}
 async function wDirecto(d){S.directo=d;render();await api('directo',{directo:d})}
 async function wVisitas(uid,op){await api('visitas',{user_id:uid,...op});await cargarAdmin();render()}
 async function anular(id){await api('cancelar',{id});S.ocupado=S.ocupado.filter(o=>o.id!==id);S.mis=S.mis.filter(c=>c.id!==id);S.citas=S.citas.filter(c=>c.id!==id);render()}
-const safe=(fn,where='#pmsg')=>async(...a)=>{try{await fn(...a)}catch(e){const el=$(where);if(el)el.textContent=e&&e.code==='ocupado'?'Ese hueco ya está ocupado.':e&&e.code==='permiso'?'No tienes permiso para hacer eso.':'No se pudo guardar. Comprueba la conexión e inténtalo de nuevo.'}};
-const errAuth=e=>({credenciales:'Correo o contraseña incorrectos.',existe:'Ese correo ya tiene cuenta. Entra con tu contraseña.',clave:'La contraseña debe tener al menos 6 caracteres.',datos:'Revisa tu nombre y tu correo.',intentos:'Demasiados intentos. Espera 15 minutos.',codigo:'El código no es correcto o ha caducado.',telefono:'Escribe un teléfono válido: te enviaremos un código por SMS.',caducado:'El código ha caducado. Pulsa «Reenviar códigos».'})[e&&e.code]||'No se pudo completar. Comprueba la conexión e inténtalo de nuevo.';
+const safe=(fn,where='#pmsg')=>async(...a)=>{try{await fn(...a)}catch(e){const el=$(where);if(el)el.textContent=e&&e.code==='ocupado'?'Ese hueco ya está ocupado.':e&&e.code==='permiso'?'No tienes permiso para hacer eso.':e&&['tarde','tuyo','sms','datos'].includes(e.code)?errAuth(e):'No se pudo guardar. Comprueba la conexión e inténtalo de nuevo.'}};
+const errAuth=e=>({tarde:'Ya no se puede cancelar online. Llama a la barbería.',tuyo:'No puedes quitarte el acceso a ti mismo.',sms:'No se pudo enviar el SMS. Revisa los datos de Twilio y el teléfono.',credenciales:'Correo o contraseña incorrectos.',existe:'Ese correo ya tiene cuenta. Entra con tu contraseña.',clave:'La contraseña debe tener al menos 6 caracteres.',datos:'Revisa tu nombre y tu correo.',intentos:'Demasiados intentos. Espera 15 minutos.',codigo:'El código no es correcto o ha caducado.',telefono:'Escribe un teléfono válido: te enviaremos un código por SMS.',caducado:'El código ha caducado. Pulsa «Reenviar códigos».'})[e&&e.code]||'No se pudo completar. Comprueba la conexión e inténtalo de nuevo.';
 
 /* ===== Web pública ===== */
 function renderEstado(){const e=estadoAhora(),el=$('#estado');el.classList.toggle('off',!e.on);el.querySelector('span').textContent=e.txt;
  const r=retrasoHoy(),p=$('#ritmo');p.hidden=r===null||!turnos(ahora().f).length;if(r!==null){p.classList.toggle('wa',r>=5);p.querySelector('span').textContent=r>=5?`Hoy vamos con unos ${r} min de retraso`:'Hoy vamos en hora'}}
 function renderSvc(){if(!B.serv||!SV().some(s=>s.id===B.serv.id))B.serv=SV()[0];
- setH($('#svc'),SV().map(s=>`<button type="button" class="chip" data-s="${esc(s.id)}" aria-pressed="${B.serv.id===s.id}">${esc(s.n)}<small>${s.d} min</small></button>`).join(''));
- setH($('#menu'),SV().map(s=>`<li><strong>${esc(s.n)}</strong><em>${s.d} min</em><span>${esc(s.t)}</span></li>`).join(''))}
+ setH($('#svc'),SV().map(s=>`<button type="button" class="chip" data-s="${esc(s.id)}" aria-pressed="${B.serv.id===s.id}">${esc(s.n)}<small>${s.d} min${s.p?' · '+eur(s.p):''}</small></button>`).join(''));
+ setH($('#menu'),SV().map(s=>`<li><strong>${esc(s.n)}</strong><em>${s.p?eur(s.p)+' · ':''}${s.d} min</em><span>${esc(s.t)}</span></li>`).join(''))}
 function renderHor(){const w=parse(ahora().f).getDay();const g=[];
  for(const d of[2,3,4,5,6,0,1]){const k=(CFG.horario[d]||[]).join(' · ').replace(/0(\d):/g,'$1:').replace(/-/g,'–')||'Cerrado';const last=g[g.length-1];if(last&&last.k===k)last.d.push(d);else g.push({k,d:[d]})}
  const nom=d=>d.length===1?DIAS[d[0]]:d.length===2?DIAS[d[0]]+' y '+DIAS[d[1]]:DIAS[d[0]]+' a '+DIAS[d[d.length-1]];
  $('#hor').innerHTML=g.map(x=>`<tr class="${x.d.includes(w)?'hoy':''}"><td>${nom(x.d).replace(/^./,c=>c.toUpperCase())}</td><td>${esc(x.k)}</td></tr>`).join('')}
-function renderDias(){const h=ahora().f;let out='';for(let i=0;i<21;i++){const f=addD(h,i),d=parse(f),n=huecos(f,B.serv.d).length,cl=!turnos(f).length;
+function renderDias(){const h=ahora().f;let out='';for(let i=0;i<=CFG.reserva.diasVista;i++){const f=addD(h,i),d=parse(f),n=huecos(f,B.serv.d).length,cl=!turnos(f).length;
  out+=`<button type="button" class="chip${cl||!n?' x':''}" data-f="${f}" aria-pressed="${B.fecha===f}" style="--i:${i}"><small>${i===0?'hoy':DIAS[d.getDay()].slice(0,3)}</small><b>${d.getDate()}</b><small>${cl?'cerrado':n?n+' libres':'completo'}</small></button>`}
  setH($('#days'),out)}
 function renderSlots(){const el=$('#slots');if(!B.fecha){el._h=null;el.innerHTML='<p class="note">Elige un día para ver los huecos.</p>';return}
@@ -490,10 +549,10 @@ function renderCuenta(){const el=$('#cuentaBody'),F=CFG.fidelidad,n=ahora();
  const disp=Math.max(0,Math.floor(v.n/F.cada)-v.canjeados),hacia=v.n%F.cada;
  setH(el,`<div class="two"><div><div class="row"><h2 style="margin-right:auto">Hola, ${esc(p.nombre||'')}</h2><button class="btn g s salir" type="button" id="salir">Cerrar sesión</button></div><p class="note">${esc(SES.user.email)}${p.tel?' · '+esc(p.tel):''}</p><h3 style="margin-top:18px">Tus próximas citas</h3>
   <ul class="mine">${prox.length?prox.map(k=>{const est=r&&r>=5&&k.fecha===n.f&&k.ini>n.m?`<span class="note" style="color:var(--warn)">Hora estimada ${hm(k.ini+r)} (vamos ${r} min tarde)</span>`:'';
-   return`<li><span><time>${hm(k.ini)}</time> · ${largo(k.fecha)}<br><span class="note">${esc(k.servicio)}</span>${k.promo?` <span class="badge">${esc(k.promo)}</span>`:''} ${est}</span><span class="row"><button class="btn g s" type="button" data-rep="${esc(k.servicio)}">Repetir</button><button class="btn r s" type="button" data-can="${esc(k.id)}">Cancelar</button></span></li>`}).join(''):'<li class="note">No tienes citas pendientes.</li>'}</ul></div>
+   return`<li><span><time>${hm(k.ini)}</time> · ${largo(k.fecha)}<br><span class="note">${esc(k.servicio)}</span>${k.promo?` <span class="badge">${esc(k.promo)}</span>`:''} ${est}</span><span class="row"><button class="btn g s" type="button" data-rep="${esc(k.servicio)}">Repetir</button>${puedeCancelar(k)?`<button class="btn r s" type="button" data-can="${esc(k.id)}">Cancelar</button>`:`<span class="note">Para cancelar, llama${CFG.negocio.telefono?' al '+esc(CFG.negocio.telefono):''}</span>`}</span></li>`}).join(''):'<li class="note">No tienes citas pendientes.</li>'}</ul></div>
   <div><h3>Tus cupones</h3>${(()=>{const C=misVales().concat(CFG.ofertas.filter(o=>ofVigente(o)&&!(o.unaVez&&usadas(o.id))).map(o=>({id:o.id,titulo:o.titulo,txt:ofTxt(o)+(ofCond(o)?' · '+ofCond(o):''),ex:o.cuenta})));
    return C.length?C.map(x=>`<div class="vale"><strong>${esc(x.titulo)}</strong>${esc(x.txt)}${x.ex?' <span class="badge">Exclusiva para clientes</span>':''}<div class="row" style="margin-top:8px"><button class="btn s" type="button" data-usaof="${esc(x.id)}">Usar al reservar</button></div></div>`).join(''):'<p class="note">Ahora mismo no tienes cupones. Aquí aparecerán tus vales y las ofertas.</p>'})()}
-   ${F.activo?`<p style="margin:18px 0 0">${hacia} de ${F.cada} visitas para ${esc(F.premio)}</p><div class="bar"><i style="width:${hacia/F.cada*100}%"></i></div><p class="note">Las visitas se suman solas cuando el barbero termina tu servicio.</p>`:''}</div></div><p class="err" id="cErr"></p>`)}
+   ${F.activo?`<p style="margin:18px 0 0">${hacia} de ${F.cada} visitas para ${esc(F.premio)}</p><div class="bar"><i style="width:${hacia/F.cada*100}%"></i></div><p class="note">Las visitas se suman solas cuando el barbero termina tu servicio.</p>`:''}</div></div><p class="err" id="cErr"></p>${p.is_admin?'':`<details style="margin-top:18px"><summary class="note" style="cursor:pointer;min-height:44px;display:flex;align-items:center">Borrar mi cuenta</summary><form id="fBorrar" class="row e" style="max-width:460px"><div style="flex:1 1 200px"><label for="bPw">Escribe tu contraseña para confirmar</label><input id="bPw" type="password" required autocomplete="current-password"></div><button class="btn r" type="submit">Borrar cuenta y datos</button></form><p class="note">Se borran tu cuenta, tus vales y tus próximas citas. No se puede deshacer.</p></details>`}`)}
 
 function renderOfertas(){const L=CFG.ofertas.filter(ofVigente);$('#ofertas').hidden=!L.length;$('#navOf').hidden=!L.length;
  setH($('#ofList'),L.map(o=>`<div class="of-pub"><div class="val">${esc(ofVal(o))}</div><h3>${esc(o.titulo)}</h3><p class="note" style="margin:0">${esc(ofTxt(o))}${ofCond(o)?' · '+esc(ofCond(o)):''}</p><button class="btn s" type="button" data-usaof="${esc(o.id)}">Reservar con esta oferta</button></div>`).join(''))}
@@ -502,8 +561,9 @@ function renderPromo(){const el=$('#fPromo');B.promoOk='';if(!B.fecha){setH(el,'
  let h=L.length?`<label>¿Quieres usar un vale u oferta?</label><div class="chips"><button type="button" class="chip" data-pr="" aria-pressed="${!sel}" style="--i:0">Sin vale</button>${L.map((x,k)=>`<button type="button" class="chip" data-pr="${esc(x.id)}" aria-pressed="${!!sel&&sel.id===x.id}" ${x.ok?'':'disabled'} style="--i:${k+1}">${esc(x.titulo)}<small>${esc(x.txt)}${x.ok?'':' · entra con tu cuenta'}</small></button>`).join('')}</div>`:'';
  if(B.promo&&!sel){const o=CFG.ofertas.find(x=>x.id===B.promo);h+=`<p class="note" style="color:var(--warn)">${esc(o?o.titulo:'Ese vale')} no vale para este día o servicio${o&&ofCond(o)?' ('+esc(ofCond(o))+')':''}.</p>`}
  setH(el,h);if(sel&&!$('#enviar').disabled)$('#resumen2').textContent+=` Con ${sel.titulo}: ${sel.txt}.`}
+function puedeCancelar(k){return new Date(k.fecha+'T'+hhmm(k.ini)).getTime()-Date.now()>=CFG.reserva.cancelarHoras*3600e3}
 function renderNav(){const a=$('#navAcc');a.textContent=!SES?'Entrar':ADMIN?'Panel':'Mi cuenta';a.setAttribute('href',!SES?'#acceso':ADMIN?'#panel':'#cuenta')}
-function render(){renderSvc();renderHor();renderDias();renderSlots();renderResumen();renderOfertas();renderPromo();renderEstado();renderCuenta();prefill();renderPanel();renderNav()}
+function render(){renderNegocio();renderSvc();renderHor();renderDias();renderSlots();renderResumen();renderOfertas();renderPromo();renderEstado();renderCuenta();prefill();renderPanel();renderNav()}
 $('#fPromo').addEventListener('click',e=>{const b=e.target.closest('[data-pr]');if(!b||b.disabled)return;B.promo=b.dataset.pr||null;render()});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-usaof]');if(!b)return;const id=b.dataset.usaof;B.promo=id;const o=CFG.ofertas.find(x=>x.id===id);
  if(o&&o.servicios.length&&!o.servicios.includes(B.serv.n)){const sv=SV().find(x=>o.servicios.includes(x.n));if(sv)B.serv=sv}
@@ -540,6 +600,8 @@ $('#form').addEventListener('submit',async e=>{e.preventDefault();$('#ferr').tex
 $('#cuenta').addEventListener('submit',async e=>{if(e.target.id!=='fVer')return;e.preventDefault();const f=e.target,er=f.querySelector('#vErr'),bt=f.querySelector('button[type=submit]');er.textContent='';bt.disabled=true;
  try{const r=await api('verificar',{cod_email:(f.querySelector('#vcE')||{}).value||'',cod_tel:(f.querySelector('#vcT')||{}).value||''});S.perfil=r.user;render();$('#cuentaBody').scrollIntoView({block:'start'})}catch(x){er.textContent=errAuth(x)}bt.disabled=false});
 document.addEventListener('click',async e=>{if(e.target.id!=='vReenv')return;const b=e.target,er=$('#vErr');b.disabled=true;try{await api('reenviar');er.textContent='Códigos enviados de nuevo.'}catch(x){er.textContent=errAuth(x)}setTimeout(()=>b.disabled=false,30000)});
+$('#cuenta').addEventListener('submit',async e=>{if(e.target.id!=='fBorrar')return;e.preventDefault();const b=e.target.querySelector('button');b.disabled=true;
+ try{await api('borrarCuenta',{password:$('#bPw').value});guardarToken(null);SES=null;S.perfil=null;S.mis=[];await cargarPublico();render();$('#cuentaBody').scrollIntoView({block:'start'});$('#ferr').textContent='';$('#pmsg').textContent='Tu cuenta y tus datos se han borrado.'}catch(x){$('#cErr').textContent=errAuth(x)}b.disabled=false});
 $('#cuenta').addEventListener('change',e=>{if(e.target.name==='tab'){TAB=e.target.value;renderCuenta()}});
 $('#panel').addEventListener('change',e=>{if(e.target.name==='tab'){TAB=e.target.value;renderPanel()}});
 async function onAuth(e){const f=e.target;if(f.id!=='fAuth'&&f.id!=='fRec')return;e.preventDefault();const err=f.querySelector('#aErr'),btn=f.querySelector('button[type=submit]');err.textContent='';btn.disabled=true;
@@ -568,6 +630,8 @@ const quien=o=>o&&o.c?o.c.cliente_nombre:'cliente';
 let tFal=0;function faltan(){if(ADMIN&&Date.now()-tFal>8000){tFal=Date.now();cargarAdmin().then(render).catch(()=>{})}}
 function renderLive(){const d=S.directo,n=ahora(),hoy=d&&d.fecha===n.f,en=hoy&&d.enSilla;
  const cur=en&&d.citaId?citasDia(n.f).find(o=>o.id===d.citaId):null,sig=siguiente(en?d.citaId:'');
+ {const C=citasDia(n.f),abierto=turnos(n.f).reduce((a,[x,y])=>a+y-x,0),usado=C.reduce((a,o)=>a+o.dur,0),hechas=C.filter(o=>o.c&&o.c.estado==='atendida').length,libres=Math.max(0,abierto-usado);
+  setH($('#lStats'),abierto?`<span>${C.length} citas hoy</span><span>${hechas} atendidas</span><span>${Math.round(usado/abierto*100)} % ocupado</span><span>${Math.floor(libres/60)} h ${libres%60} min libres</span>`:'<span>Hoy cerrado</span>')}
  $('#lNow').textContent=en?(cur?`Atendiendo a ${quien(cur)}`:'Atendiendo cliente sin cita'):'Silla libre';
  $('#lNext').textContent=sig?`Siguiente: ${hm(sig.ini)} · ${sig.c?.servicio||'Cita'} · ${quien(sig)}`:'No hay más citas hoy.';
  $('#bLive').textContent=en?'Termino con este cliente':sig?`Empiezo con ${quien(sig)} (${hm(sig.ini)})`:'Empiezo cliente sin cita';
@@ -596,7 +660,7 @@ function renderPanel(){if(!document.body.classList.contains('adm'))return;
  {const v=$('#mS').value;$('#mS').innerHTML=SV().map(s=>`<option value="${esc(s.id)}">${esc(s.n)} · ${s.d} min</option>`).join('');if(SV().some(s=>s.id===v))$('#mS').value=v}renderMH();
  const hoy=ahora().f;
  setH($('#ldias'),listaMeses(CFG.dias.filter(f=>f>=hoy),'ud'));setH($('#lfest'),listaMeses(CFG.festivos.filter(f=>f>=hoy),'uf'));renderCal();
- renderClientes();renderRec();renderEditores()}
+ renderClientes();renderEquipo();renderRec();renderEditores()}
 function listaMeses(L,attr){if(!L.length)return'<p class="note">Ninguno.</p>';const g={};for(const f of[...L].sort())(g[f.slice(0,7)]=g[f.slice(0,7)]||[]).push(f);
  return Object.entries(g).map(([k,fs])=>{const[y,m]=k.split('-').map(Number);return`<div class="mes"><b>${MESL[m-1]} ${y}</b><div>${fs.map(f=>`<span class="tag" title="${largo(f)}">${DIAS[parse(f).getDay()].slice(0,3)} ${+f.slice(8)}<button type="button" data-${attr}="${f}" aria-label="Quitar ${largo(f)}">×</button></span>`).join('')}</div></div>`}).join('')}
 let calMes=ahora().f.slice(0,7);
@@ -609,16 +673,21 @@ $('#cal').addEventListener('click',safe(async e=>{const b=e.target.closest('butt
  if(b.dataset.cm){const[y,m]=calMes.split('-').map(Number),d=new Date(y,m-1+(+b.dataset.cm),1);calMes=d.getFullYear()+'-'+pad(d.getMonth()+1);renderCal();return}
  const f=b.dataset.cal,es=CFG.festivos.includes(f);CFG.festivos=es?CFG.festivos.filter(x=>x!==f):CFG.festivos.concat(f);renderCal();await wCfg();$('#pmsg').textContent=es?`${largo(f)} ya no es festivo.`:`${largo(f)} marcado como festivo: no se podrá reservar.`}));
 function renderMH(){const s=SV().find(x=>x.id===$('#mS').value)||SV()[0];const h=huecos(P.dia,s.d,0);const cur=$('#mH').value;$('#mH').innerHTML=h.length?h.map(t=>`<option value="${t}">${hm(t)}</option>`).join(''):'<option value="">Sin huecos</option>';if(h.includes(+cur))$('#mH').value=cur}
-function renderRec(){const n=ahora(),lim=addD(n.f,2);const prox=S.citas.filter(c=>c.estado==='ok'&&c.fecha>=n.f&&c.fecha<=lim&&(c.fecha>n.f||c.ini>n.m));
- $('#rec').innerHTML=prox.length?prox.map(c=>{const em=c.canal==='email',env=addD(c.fecha,-1),ya=env<n.f||(env===n.f&&c.ini<=n.m);
-  const txt=`Hola ${c.cliente_nombre}, te recordamos tu cita en Barbería Bonoso el ${largo(c.fecha)} a las ${hm(c.ini)}. Si no puedes venir, avísanos.`,dg=String(c.cliente_tel||'').replace(/\D/g,''),wa=dg.length>=9?'https://wa.me/'+(dg.length===9?'34'+dg:dg)+'?text='+encodeURIComponent(txt):'';
-  return`<div class="msg${c.cliente_email?' em':''}"><b>${hm(c.ini)} · ${largo(c.fecha)} · ${esc(c.cliente_nombre)}</b>${c.cliente_email?`Correo automático ${ya?'enviado':'se envía 24 h antes'} a ${esc(c.cliente_email)}.`:'Sin correo.'}${wa?`<div class="row" style="margin-top:8px"><a class="btn s" href="${wa}" target="_blank" rel="noopener">Enviar recordatorio por WhatsApp</a></div>`:''}</div>`}).join(''):'<p class="note">No hay citas en las próximas 48 horas.</p>'}
+function renderRec(){const n=ahora(),lim=addD(n.f,2);const prox=S.citas.filter(c=>c.estado==='ok'&&c.fecha>=n.f&&c.fecha<=lim&&(c.fecha>n.f||c.ini>n.m));const H=CFG.avisos.horas;
+ $('#rec').innerHTML=prox.length?prox.map(c=>{const em=c.canal==='email',env=addD(c.fecha,-1),ya=Date.now()>=new Date(c.fecha+'T'+hhmm(c.ini)).getTime()-H*3600e3;
+  const wa=waLink(c.cliente_tel,tpl(CFG.avisos.recordatorioWa,vars({nombre:c.cliente_nombre,fecha:c.fecha,ini:c.ini,servicio:c.servicio})));
+  return`<div class="msg${c.cliente_email?' em':''}"><b>${hm(c.ini)} · ${largo(c.fecha)} · ${esc(c.cliente_nombre)}</b>${c.cliente_email?(CFG.avisos.recordatorio?`Correo automático ${ya?'enviado':'se envía '+CFG.avisos.horas+' h antes'} a ${esc(c.cliente_email)}.`:'Correo de recordatorio desactivado.'):'Sin correo.'}${wa?`<div class="row" style="margin-top:8px"><a class="btn s" href="${wa}" target="_blank" rel="noopener">Enviar recordatorio por WhatsApp</a></div>`:''}</div>`}).join(''):'<p class="note">No hay citas en las próximas 48 horas.</p>'}
+async function cambiarRol(b){if(!b.dataset.conf){b.dataset.conf='1';b.textContent=b.dataset.v==='1'?'¿Seguro? Verá clientes y agenda':'¿Seguro?';return}
+ b.disabled=true;await api('rol',{user_id:b.dataset.rol,admin:b.dataset.v==='1'});await cargarAdmin();render();$('#pmsg').textContent=b.dataset.v==='1'?'Acceso de barbero concedido. Que cierre sesión y vuelva a entrar.':'Acceso de barbero retirado.'}
+function renderEquipo(){const L=Object.values(S.perfiles).filter(p=>p.is_admin);
+ setH($('#eqL'),L.map(p=>`<div class="cl-row"><strong>${esc(p.nombre||p.email)}</strong>${p.id===SES?.user.id?' <span class="badge ok">Tú</span>':''}<br><span class="note">${esc(p.email)}</span>${p.id!==SES?.user.id?`<div class="row" style="margin-top:6px"><button class="btn r s" type="button" data-rol="${esc(p.id)}" data-v="0">Quitar acceso</button></div>`:''}</div>`).join(''))}
+$('#eqL').addEventListener('click',safe(async e=>{const b=e.target.closest('[data-rol]');if(b)await cambiarRol(b)}));
 function renderClientes(){const qq=$('#cQ').value.trim().toLowerCase(),F=CFG.fidelidad;
  const L=Object.values(S.perfiles).filter(p=>!p.is_admin).map(p=>({u:p.id,p,v:vis(p.id)})).filter(x=>!qq||[x.p.nombre,x.p.email,x.p.tel].join(' ').toLowerCase().includes(qq)).sort((a,b)=>b.v.n-a.v.n);
  $('#cL').innerHTML=L.length?L.slice(0,50).map(x=>{const disp=Math.max(0,Math.floor(x.v.n/F.cada)-x.v.canjeados);
   return`<div class="cl-row"><strong>${esc(x.p.nombre||'Sin nombre')}</strong> <span class="note">${x.v.n} visitas</span><br><span class="note">${esc([x.p.tel,x.p.email].filter(Boolean).join(' · '))}</span>
-  ${F.activo?`<div class="row" style="margin-top:6px">${disp?`<button class="btn s" type="button" data-canje="${esc(x.u)}">Canjear vale (${disp})</button>`:''}${!x.v.bienvenida_usada&&F.bienvenida?`<button class="btn g s" type="button" data-bien="${esc(x.u)}">Usar bienvenida</button>`:''}</div>`:''}</div>`}).join(''):'<p class="note" style="margin-top:10px">Todavía no hay clientes con cuenta.</p>'}
-const dirty={hor:false,sv:false,fi:false,of:false,pa:false,re:false,ve:false};
+  ${F.activo?`<div class="row" style="margin-top:6px">${disp?`<button class="btn s" type="button" data-canje="${esc(x.u)}">Canjear vale (${disp})</button>`:''}${!x.v.bienvenida_usada&&F.bienvenida?`<button class="btn g s" type="button" data-bien="${esc(x.u)}">Usar bienvenida</button>`:''}</div>`:''}<div class="row" style="margin-top:6px"><button class="btn g s" type="button" data-rol="${esc(x.u)}" data-v="1">Dar acceso de barbero</button></div></div>`}).join(''):'<p class="note" style="margin-top:10px">Todavía no hay clientes con cuenta.</p>'}
+const dirty={hor:false,sv:false,fi:false,of:false,pa:false,re:false,ve:false,ne:false,av:false};
 function renderEditores(){
  if(!dirty.hor)$('#eHor').innerHTML=[2,3,4,5,6,0,1].map(w=>{const r=(CFG.horario[w]||[]).map(x=>x.split('-'));const a=r[0]||['',''],b=r[1]||['',''];
   return`<div class="hr" data-w="${w}"><span style="text-transform:capitalize">${DIAS[w]}</span><input type="checkbox" aria-label="Abre el ${DIAS[w]}" ${r.length?'checked':''}><span class="row" style="gap:4px;flex-wrap:nowrap"><input type="time" step="900" aria-label="Mañana desde" value="${a[0]}"><input type="time" step="900" aria-label="Mañana hasta" value="${a[1]}"></span><span class="row" style="gap:4px;flex-wrap:nowrap"><input type="time" step="900" aria-label="Tarde desde" value="${b[0]}"><input type="time" step="900" aria-label="Tarde hasta" value="${b[1]}"></span></div>`}).join('');
@@ -626,7 +695,10 @@ function renderEditores(){
  if(!dirty.fi){const F=CFG.fidelidad;$('#fAct').checked=F.activo;$('#fBi').value=F.bienvenida;$('#fCa').value=F.cada;$('#fPr').value=F.premio}
  if(!dirty.pa){$('#pAct').checked=CFG.pago.activo;$('#pEnl').value=CFG.pago.enlace}
  if(!dirty.of)setH($('#eOf'),ofRows(CFG.ofertas));
- if(!dirty.re){$('#rInt').checked=CFG.reserva.inteligente;$('#rTol').value=String(CFG.reserva.tolerancia);$('#rPaso').value=String(CFG.reserva.paso)}
+ if(!dirty.re){const Rv=CFG.reserva;$('#rInt').checked=Rv.inteligente;$('#rTol').value=String(Rv.tolerancia);$('#rPaso').value=String(Rv.paso);$('#rAnt').value=String(Rv.antelacion);$('#rDias').value=String(Rv.diasVista);$('#rCan').value=String(Rv.cancelarHoras)}
+ if(!dirty.ne){const N=CFG.negocio;$('#nNom').value=N.nombre;$('#nCor').value=N.corto;$('#nLem').value=N.lema;$('#nDir').value=N.direccion;$('#nTel').value=N.telefono;$('#nMap').value=N.mapa}
+ if(!dirty.av){const A=CFG.avisos;$('#aConf').checked=A.confirmacion;$('#aRec').checked=A.recordatorio;$('#aHor').value=String(A.horas);$('#aWa').value=A.wa;$('#aRwa').value=A.recordatorioWa;$('#aLl').value=A.llamada}
+ if(document.activeElement!==$('#tFrom')&&S.smsFrom&&!$('#tFrom').value)$('#tFrom').value=S.smsFrom;$('#tTok').placeholder=S.smsListo?'•••••• guardado (escribe solo para cambiarlo)':'Pega el token';$('#pSms').hidden=$('#bSms').hidden=!S.smsListo
  if(!dirty.ve){$('#vEm').checked=CFG.verificacion.email;$('#vTe').checked=CFG.verificacion.tel&&!!S.smsListo}
  $('#vTe').disabled=!S.smsListo;$('#vSms').textContent=S.smsListo?'SMS listo: se envían con tu cuenta de Twilio.':'Para verificar por SMS hace falta un servicio de SMS (Twilio, unos 0,08 € por mensaje). Cómo conectarlo: en la guía. Mientras tanto, el correo ya funciona.'}
 function ofRows(L){return L.map(o=>`<div class="of${o.activo?'':' off'}" data-id="${esc(o.id)}">
@@ -639,17 +711,18 @@ function ofRows(L){return L.map(o=>`<div class="of${o.activo?'':' off'}" data-id
 function leerOf(){return[...document.querySelectorAll('#eOf .of')].map(r=>{const q=c=>r.querySelector(c);return{id:r.dataset.id,titulo:q('.oT').value.trim(),tipo:q('.oK').value,valor:Math.max(0,+q('.oV').value||0),texto:q('.oX').value.trim(),activo:q('.oA').checked,desde:q('.oD').value,hasta:q('.oH').value,dias:[...r.querySelectorAll('.oDs [aria-pressed=true]')].map(b=>+b.dataset.d),servicios:[...r.querySelectorAll('.oSs [aria-pressed=true]')].map(b=>b.dataset.s),cuenta:q('.oC').checked,unaVez:q('.oU').checked}})}
 function valOf(L){for(const o of L){if(!o.titulo)return'Cada oferta necesita un nombre.';if(o.tipo!=='regalo'&&!(o.valor>0))return`«${o.titulo}»: pon el valor del descuento.`;if(o.tipo==='porcentaje'&&o.valor>100)return`«${o.titulo}»: el porcentaje no puede pasar de 100.`;if(o.tipo==='regalo'&&!o.texto)return`«${o.titulo}»: describe el regalo en el texto.`;if(o.desde&&o.hasta&&o.hasta<o.desde)return`«${o.titulo}»: la fecha final es anterior a la inicial.`}return''}
 async function guardarOf(msg){const L=leerOf(),e=valOf(L);if(e){$('#pmsg').textContent=e;return false}CFG.ofertas=L;dirty.of=false;$('#eOf')._h=null;await wCfg();$('#pmsg').textContent=msg||'Ofertas guardadas.';return true}
-function svRows(L){return L.map(s=>`<div class="sv" data-id="${esc(s.id)}"><input aria-label="Nombre del servicio" value="${esc(s.n)}" placeholder="Nombre"><input aria-label="Minutos" type="number" min="5" max="240" step="5" value="${s.d}"><button class="btn r s" type="button" data-rsv aria-label="Quitar servicio">Quitar</button><input class="t" aria-label="Descripción" value="${esc(s.t)}" placeholder="Descripción"></div>`).join('')}
-function leerSv(){return[...document.querySelectorAll('#eSv .sv')].map(r=>{const i=r.querySelectorAll('input');return{id:r.dataset.id,n:i[0].value.trim(),d:Math.round(+i[1].value),t:i[2].value.trim()}})}
+function svRows(L){return L.map(s=>`<div class="sv" data-id="${esc(s.id)}"><input aria-label="Nombre del servicio" value="${esc(s.n)}" placeholder="Nombre"><input aria-label="Minutos" title="Minutos" type="number" min="5" max="240" step="5" value="${s.d}" placeholder="min"><input aria-label="Precio en euros" title="Precio (€)" type="number" min="0" max="999" step="0.5" value="${s.p||''}" placeholder="€"><button class="btn r s" type="button" data-rsv aria-label="Quitar servicio">Quitar</button><input class="t" aria-label="Descripción" value="${esc(s.t)}" placeholder="Descripción"></div>`).join('')}
+function leerSv(){return[...document.querySelectorAll('#eSv .sv')].map(r=>{const i=r.querySelectorAll('input');return{id:r.dataset.id,n:i[0].value.trim(),d:Math.round(+i[1].value),p:Math.max(0,+i[2].value||0),t:i[3].value.trim()}})}
 $('#eHor').addEventListener('input',()=>dirty.hor=true);$('#eSv').addEventListener('input',()=>dirty.sv=true);
 ['fAct','fBi','fCa','fPr'].forEach(k=>$('#'+k).addEventListener('input',()=>dirty.fi=true));
 $('#sHor').addEventListener('click',safe(async()=>{const h={};for(const r of document.querySelectorAll('#eHor .hr')){const w=+r.dataset.w,i=r.querySelectorAll('input');h[w]=[];if(!i[0].checked)continue;
   for(const[a,b]of[[i[1],i[2]],[i[3],i[4]]])if(a.value&&b.value){if(toMin(b.value)<=toMin(a.value)){$('#pmsg').textContent=`Revisa el ${DIAS[w]}: la hora de cierre debe ser posterior a la de apertura.`;return}h[w].push(a.value+'-'+b.value)}
   if(!h[w].length){$('#pmsg').textContent=`El ${DIAS[w]} está marcado como abierto pero no tiene horas.`;return}}
  CFG.horario=h;dirty.hor=false;await wCfg();$('#pmsg').textContent='Horario guardado.'}));
-$('#aSv').addEventListener('click',()=>{dirty.sv=true;$('#eSv').insertAdjacentHTML('beforeend',svRows([{id:nid(),n:'',d:30,t:''}]));$('#eSv .sv:last-child input').focus()});
+$('#aSv').addEventListener('click',()=>{dirty.sv=true;$('#eSv').insertAdjacentHTML('beforeend',svRows([{id:nid(),n:'',d:30,t:'',p:0}]));$('#eSv .sv:last-child input').focus()});
 $('#eSv').addEventListener('click',e=>{if(e.target.closest('[data-rsv]')){dirty.sv=true;e.target.closest('.sv').remove()}});
 $('#sSv').addEventListener('click',safe(async()=>{const L=leerSv().filter(s=>s.n);if(!L.length||L.some(s=>!(s.d>=5&&s.d<=240))){$('#pmsg').textContent='Cada servicio necesita un nombre y una duración entre 5 y 240 minutos.';return}
+ const viejos=CFG.servicios.map(x=>x.n),renom=L.filter(x=>{const o=CFG.servicios.find(y=>y.id===x.id);return o&&o.n!==x.n});for(const o of CFG.ofertas)o.servicios=o.servicios.map(n=>{const a=CFG.servicios.find(y=>y.n===n),b=a&&L.find(y=>y.id===a.id);return b?b.n:n}).filter(n=>L.some(y=>y.n===n));
  if(new Set(L.map(s=>s.n)).size!==L.length){$('#pmsg').textContent='Hay dos servicios con el mismo nombre.';return}
  CFG.servicios=L;dirty.sv=false;await wCfg();$('#pmsg').textContent='Servicios guardados.'}));
 $('#sFi').addEventListener('click',safe(async()=>{const c=Math.round(+$('#fCa').value);CFG.fidelidad={activo:$('#fAct').checked,bienvenida:$('#fBi').value.trim(),cada:c>=2?c:5,premio:$('#fPr').value.trim()||'un corte gratis'};dirty.fi=false;await wCfg();$('#pmsg').textContent=CFG.fidelidad.activo?'Fidelización activada: los clientes ya ven sus vales.':'Fidelización desactivada.'}));
@@ -662,22 +735,32 @@ $('#eOf').addEventListener('change',safe(async e=>{if(!e.target.classList.contai
  const ok=await guardarOf(`«${r.querySelector('.oT').value.trim()||'Oferta'}» ${on?'activada: ya la ven los clientes.':'desactivada.'}`);if(!ok){e.target.checked=!on;r.classList.toggle('off',on)}}));
 $('#aOf').addEventListener('click',()=>{dirty.of=true;const L=leerOf();L.push({id:nid(),titulo:'',tipo:'porcentaje',valor:10,texto:'',activo:false,desde:'',hasta:'',dias:[],servicios:[],cuenta:false,unaVez:false});$('#eOf')._h=null;$('#eOf').innerHTML=ofRows(L);$('#eOf .of:last-child .oT').focus()});
 $('#sOf').addEventListener('click',safe(()=>guardarOf()));
-['rInt','rTol','rPaso'].forEach(k=>$('#'+k).addEventListener('input',()=>dirty.re=true));
+['nNom','nCor','nLem','nDir','nTel','nMap'].forEach(k=>$('#'+k).addEventListener('input',()=>dirty.ne=true));
+['aConf','aRec','aHor','aWa','aRwa','aLl'].forEach(k=>$('#'+k).addEventListener('input',()=>dirty.av=true));
+$('#sNeg').addEventListener('click',safe(async()=>{const m=$('#nMap').value.trim();if(m&&!/^https:\/\//.test(m)){$('#pmsg').textContent='El enlace del mapa debe empezar por https://';return}
+ if(!$('#nNom').value.trim()||!$('#nDir').value.trim()){$('#pmsg').textContent='El nombre y la dirección no pueden quedar vacíos.';return}
+ CFG.negocio={nombre:$('#nNom').value.trim(),corto:$('#nCor').value.trim()||$('#nNom').value.trim(),lema:$('#nLem').value.trim(),direccion:$('#nDir').value.trim(),telefono:$('#nTel').value.trim(),mapa:m};dirty.ne=false;await wCfg();$('#pmsg').textContent='Datos del negocio guardados: ya se ven en la web y en los correos.'}));
+$('#sAv').addEventListener('click',safe(async()=>{const w=$('#aWa').value.trim(),r=$('#aRwa').value.trim(),l=$('#aLl').value.trim();if(!w||!r||!l){$('#pmsg').textContent='Los mensajes no pueden quedar vacíos.';return}
+ CFG.avisos={confirmacion:$('#aConf').checked,recordatorio:$('#aRec').checked,horas:+$('#aHor').value,wa:w,recordatorioWa:r,llamada:l};dirty.av=false;await wCfg();$('#pmsg').textContent='Mensajes guardados.'}));
+$('#sSms').addEventListener('click',safe(async()=>{const r=await api('smsConfig',{sid:$('#tSid').value.trim(),twToken:$('#tTok').value.trim(),from:$('#tFrom').value.trim()});$('#tTok').value='';S.smsListo=r.smsListo;await cargarAdmin();render();$('#pmsg').textContent=r.smsListo?'SMS conectado. Ya puedes activar la verificación por teléfono.':'Faltan datos de Twilio.'}));
+$('#pSms').addEventListener('click',safe(async()=>{await api('probarSMS',{tel:S.perfil&&S.perfil.tel});$('#pmsg').textContent='SMS de prueba enviado a tu teléfono.'}));
+$('#bSms').addEventListener('click',safe(async b=>{const x=$('#bSms');if(!x.dataset.conf){x.dataset.conf='1';x.textContent='¿Seguro?';return}x.dataset.conf='';x.textContent='Desconectar';await api('smsConfig',{borrar:true});CFG.verificacion.tel=false;await wCfg();await cargarAdmin();render();$('#pmsg').textContent='SMS desconectado.'}));
+['rInt','rTol','rPaso','rAnt','rDias','rCan'].forEach(k=>$('#'+k).addEventListener('input',()=>dirty.re=true));
 ['vEm','vTe'].forEach(k=>$('#'+k).addEventListener('input',()=>dirty.ve=true));
-$('#sRes').addEventListener('click',safe(async()=>{CFG.reserva={inteligente:$('#rInt').checked,tolerancia:+$('#rTol').value,paso:+$('#rPaso').value};dirty.re=false;await wCfg();$('#pmsg').textContent='Ajustes de reserva guardados: la web ya ofrece las nuevas horas.'}));
+$('#sRes').addEventListener('click',safe(async()=>{CFG.reserva={inteligente:$('#rInt').checked,tolerancia:+$('#rTol').value,paso:+$('#rPaso').value,antelacion:+$('#rAnt').value,diasVista:+$('#rDias').value,cancelarHoras:+$('#rCan').value};dirty.re=false;await wCfg();$('#pmsg').textContent='Ajustes de reserva guardados: la web ya ofrece las nuevas horas.'}));
 $('#sVer').addEventListener('click',safe(async()=>{CFG.verificacion={email:$('#vEm').checked,tel:$('#vTe').checked&&!!S.smsListo};dirty.ve=false;await wCfg();$('#pmsg').textContent=CFG.verificacion.email||CFG.verificacion.tel?'Verificación activada para las cuentas nuevas.':'Verificación desactivada.'}));
 ['pAct','pEnl'].forEach(k=>$('#'+k).addEventListener('input',()=>dirty.pa=true));
 $('#sPago').addEventListener('click',safe(async()=>{const en=$('#pEnl').value.trim(),a=$('#pAct').checked;
  if(en&&!STRIPE.test(en)){$('#pmsg').textContent='El enlace debe ser de Stripe (empieza por https://buy.stripe.com/).';return}
  if(a&&!en){$('#pmsg').textContent='Para activar el pago, pega primero tu enlace de Stripe.';return}
  CFG.pago={activo:a,enlace:en};dirty.pa=false;await wCfg();$('#pmsg').textContent=a?'Pago online activado: los clientes verán «Pagar ahora con tarjeta» al reservar.':'Pago online desactivado.'}));
-$('#cL').addEventListener('click',safe(async e=>{const b=e.target.closest('button');if(!b)return;const u=b.dataset.canje||b.dataset.bien,v=vis(u);
+$('#cL').addEventListener('click',safe(async e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.rol)return cambiarRol(b);const u=b.dataset.canje||b.dataset.bien,v=vis(u);
  b.disabled=true;await wVisitas(u,b.dataset.canje?{canjear:true}:{bienvenida:true})}));
 $('#mS').addEventListener('change',renderMH);
 $('#bM').addEventListener('click',safe(async()=>{const s=SV().find(x=>x.id===$('#mS').value),t=$('#mH').value,nom=$('#mN').value.trim(),tel=$('#mT').value.trim();
  if(!s||t===''||!nom){$('#pmsg').textContent='Elige servicio y hora y escribe el nombre del cliente.';return}
  await api('citaManual',{fecha:P.dia,ini:+t,servicio:s.n,nombre:nom,tel});
- const dg=tel.replace(/\D/g,''),txt=`Hola ${nom}, te confirmamos tu cita en Barbería Bonoso: ${largo(P.dia)} a las ${hm(+t)} (${s.n}). Carrer l'Hort, 16. ¡Te esperamos!`,wa=dg.length>=9?'https://wa.me/'+(dg.length===9?'34'+dg:dg)+'?text='+encodeURIComponent(txt):'';
+ const wa=waLink(tel,tpl(CFG.avisos.wa,vars({nombre:nom,fecha:P.dia,ini:+t,servicio:s.n})));
  $('#mOk').innerHTML=`<div class="okbox"><strong><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>Cita añadida a la agenda</strong>
   <p style="margin:6px 0 0"><b>${esc(nom)}</b>${tel?' · '+esc(tel):''}<br>${esc(s.n)} · ${s.d} min<br>${largo(P.dia).replace(/^./,c=>c.toUpperCase())}, de ${hm(+t)} a ${hm(+t+s.d)}</p>
   <p class="note" style="margin:8px 0 0">El hueco ya sale ocupado en la web: nadie más puede reservarlo. ${wa?'Mándale la confirmación por WhatsApp con un toque:':'Sin teléfono no se le puede mandar confirmación.'}</p>
@@ -694,22 +777,35 @@ $('#tl').addEventListener('click',safe(async e=>{const t=e.target.closest('butto
 $('#ldias').addEventListener('click',safe(e=>{const t=e.target.closest('[data-ud]');if(t){CFG.dias=CFG.dias.filter(f=>f!==t.dataset.ud);return wCfg()}}));
 $('#lfest').addEventListener('click',safe(e=>{const t=e.target.closest('[data-uf]');if(t){CFG.festivos=CFG.festivos.filter(f=>f!==t.dataset.uf);return wCfg()}}));
 $('#bll').addEventListener('click',()=>{const tel=$('#ll').value.trim()||'cliente';
- $('#llr').innerHTML=`<div class="msg"><b>Respuesta automática a ${esc(tel)} (simulada)</b>¡Hola! Somos Barbería Bonoso. Ahora mismo estamos con un cliente y no podemos coger el teléfono. Reserva tu cita en segundos aquí: ${esc(location.origin+location.pathname)} ✂️</div>`});
+ const m=tpl(CFG.avisos.llamada,vars({})),wa=waLink(tel,m);$('#llr').innerHTML=`<div class="msg"><b>Respuesta a ${esc(tel)}</b>${esc(m)}${wa?`<div class="row" style="margin-top:8px"><a class="btn s" href="${wa}" target="_blank" rel="noopener">Enviar por WhatsApp</a></div>`:''}</div>`});
 
 /* ===== Arranque ===== */
 {let s='';for(let i=0;i<9;i++){const y=50+i*48;s+=`<polygon points="430,${y} 482,${y-30} 482,${y-14} 430,${y+16}" fill="${i%2?'#1f3a6b':'#b3261e'}"/>`}$('#stripes').innerHTML=s}
-let PT='agenda';try{PT=localStorage.getItem('bonoso_tab')||'agenda'}catch(e){}
-function pestana(t){PT=t;document.querySelectorAll('#ptabs [data-pt]').forEach(b=>b.setAttribute('aria-selected',b.dataset.pt===t));document.querySelectorAll('.ptab').forEach(x=>x.classList.toggle('on',x.dataset.pt===t));try{localStorage.setItem('bonoso_tab',t)}catch(e){}}
-$('#ptabs').addEventListener('click',e=>{const b=e.target.closest('[data-pt]');if(b){pestana(b.dataset.pt);b.scrollIntoView({inline:'nearest',block:'nearest'})}});
+const PTS=[...document.querySelectorAll('#ptabs [data-pt]')].map(b=>b.dataset.pt);
+let PT='agenda';try{PT=localStorage.getItem('bonoso_tab')||'agenda'}catch(e){}if(!PTS.includes(PT))PT='agenda';
+$('#pdots').innerHTML=PTS.map(()=>'<i></i>').join('');
+function pestana(t,dir){const prev=PTS.indexOf(PT);PT=t;const k=PTS.indexOf(t);
+ document.querySelectorAll('#ptabs [data-pt]').forEach(b=>{const on=b.dataset.pt===t;b.setAttribute('aria-selected',on);if(on){const c=$('#ptabs');c.scrollTo({left:b.offsetLeft-(c.clientWidth-b.offsetWidth)/2,behavior:'smooth'})}});
+ document.querySelectorAll('.ptab').forEach(x=>{x.classList.remove('izq','der');if(x.dataset.pt===t&&dir!==undefined)x.classList.add(k<prev?'izq':'der');x.classList.toggle('on',x.dataset.pt===t)});
+ document.querySelectorAll('#pdots i').forEach((d,i)=>d.classList.toggle('on',i===k));
+ const pa=document.querySelectorAll('.ptabw .pa');pa[0].disabled=k===0;pa[1].disabled=k===PTS.length-1;
+ try{localStorage.setItem('bonoso_tab',t)}catch(e){}}
+function mover(d){const k=PTS.indexOf(PT)+d;if(k<0||k>=PTS.length)return;pestana(PTS[k],d);const w=$('.ptabw');if(w.getBoundingClientRect().top<0||scrollY>w.offsetTop)scrollTo({top:Math.max(0,$('#pbody').offsetTop-70),behavior:'smooth'})}
+$('#ptabs').addEventListener('click',e=>{const b=e.target.closest('[data-pt]');if(b)pestana(b.dataset.pt,1)});
+document.querySelectorAll('.ptabw .pa').forEach(b=>b.addEventListener('click',()=>mover(+b.dataset.dir)));
+/* Deslizar el dedo a izquierda o derecha sobre el panel cambia de pestaña */
+{let x0=null,y0=0;const zona=$('#pbody');
+ zona.addEventListener('touchstart',e=>{const t=e.target;if(t.closest('input,select,textarea,.days,.ptabs,.cal,.mini,.wk,details,button,a')){x0=null;return}x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+ zona.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*1.6)mover(dx<0?1:-1)},{passive:true})}
 pestana(PT);
-function ruta(){const a=location.hash==='#panel'||location.hash==='#acceso';document.body.classList.toggle('adm',a);if(a){scrollTo(0,0);dirty.hor=dirty.sv=dirty.fi=dirty.of=dirty.pa=dirty.re=dirty.ve=false}renderPanel();renderNav()}
+function ruta(){const a=location.hash==='#panel'||location.hash==='#acceso';document.body.classList.toggle('adm',a);if(a){scrollTo(0,0);dirty.hor=dirty.sv=dirty.fi=dirty.of=dirty.pa=dirty.re=dirty.ve=dirty.ne=dirty.av=false}renderPanel();renderNav()}
 addEventListener('hashchange',ruta);
 horasSel($('#fd'));horasSel($('#fh'));$('#fd').value='540';$('#fh').value='600';B.serv=SV()[0];
-{const h=ahora().f;for(let i=0;i<21;i++){const f=addD(h,i);if(huecos(f,B.serv.d).length){B.fecha=f;break}}}
+{const h=ahora().f;for(let i=0;i<=CFG.reserva.diasVista;i++){const f=addD(h,i);if(huecos(f,B.serv.d).length){B.fecha=f;break}}}
 ruta();render();setInterval(()=>{renderEstado();renderDias();if(document.body.classList.contains('adm'))renderLive()},60000);
 if(!sb){$('#modo').textContent='La app aún no está conectada a la base de datos (falta pegar la URL y la clave de Supabase).'}
 else{$('#modo').textContent='Cargando disponibilidad…';
- cargarPublico().then(()=>{const h=ahora().f;if(!B.fecha||!huecos(B.fecha,B.serv.d).length)for(let i=0;i<21;i++){const f=addD(h,i);if(huecos(f,B.serv.d).length){B.fecha=f;break}}render()});
+ cargarPublico().then(()=>{const h=ahora().f;if(!B.fecha||!huecos(B.fecha,B.serv.d).length)for(let i=0;i<=CFG.reserva.diasVista;i++){const f=addD(h,i);if(huecos(f,B.serv.d).length){B.fecha=f;break}}render()});
  cargarUsuario();
  setInterval(()=>{if(document.hidden)return;cargarPublico();if(ADMIN&&document.body.classList.contains('adm'))cargarUsuario()},20000);
  document.addEventListener('visibilitychange',()=>{if(!document.hidden){cargarPublico();cargarUsuario()}})}
