@@ -1,8 +1,8 @@
 // Barbería Bonoso · Service Worker
 // Guarda la "carcasa" de la app para que abra rápido e instale como app.
 // Los datos (citas, horario...) siempre se piden en directo a Supabase.
-const CACHE = 'bonoso-v1';
-const SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
+const CACHE = 'bonoso-v2';
+const SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
