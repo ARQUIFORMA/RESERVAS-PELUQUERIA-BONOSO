@@ -322,7 +322,7 @@ textarea:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
         <label for="mCo">Concepto</label><input id="mCo" maxlength="80" placeholder="Cuchillas, champú, luz…">
         <div class="row e"><div style="flex:1 1 150px"><label for="mCa">Categoría</label><input id="mCa" list="cats" maxlength="40" placeholder="Material"></div><div style="flex:1 1 120px"><label for="mMe">Forma de pago</label><select id="mMe"><option value="tarjeta">Tarjeta</option><option value="efectivo">Efectivo</option><option value="bizum">Bizum</option><option value="transferencia">Transferencia</option><option value="domiciliacion">Domiciliación</option></select></div></div>
         <datalist id="cats"><option value="Alquiler"><option value="Material"><option value="Productos"><option value="Suministros"><option value="Seguros"><option value="Autónomos e impuestos"><option value="Gestoría"><option value="Publicidad"><option value="Software"><option value="Mantenimiento"><option value="Servicios"><option value="Venta de productos"><option value="Otros"></datalist>
-        <button class="btn" id="mAdd" type="button" style="margin-top:12px">Añadir</button></div>
+        <button class="btn" id="mAdd" type="button" style="margin-top:12px">Añadir</button><p class="note" id="mNota" aria-live="polite" style="font-weight:700;color:var(--brass)"></p></div>
       <div class="card"><h3>Gastos fijos</h3><p class="note">Se suman solos cada mes, trimestre o año desde su fecha de inicio.</p><div id="rcL"></div>
         <details style="margin-top:10px"><summary style="cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:700">Añadir gasto fijo</summary>
         <label for="rcC">Concepto</label><input id="rcC" maxlength="80" placeholder="Alquiler del local">
@@ -975,9 +975,9 @@ new ResizeObserver(()=>{if(PT==='caja'&&FZ.datos)dibujarCaja(resumenAnio(FZ.dato
 $('#fAnio').addEventListener('change',()=>{FZ.anio=+$('#fAnio').value;FZ.datos=null;cargarCaja()});
 $('#fMes').addEventListener('change',()=>{FZ.mes=$('#fMes').value;renderCaja()});
 $('#mFe').value=ahora().f;
-$('#mAdd').addEventListener('click',safe(async()=>{const mov={tipo:document.querySelector('input[name=mTipo]:checked').value,fecha:$('#mFe').value,importe:+$('#mIm').value,concepto:$('#mCo').value.trim(),categoria:$('#mCa').value.trim()||(document.querySelector('input[name=mTipo]:checked').value==='ingreso'?'Otros ingresos':'Otros'),metodo:$('#mMe').value};
- if(!okF(mov.fecha)||!(mov.importe>0)||!mov.concepto){$('#pmsg').textContent='Pon fecha, concepto e importe.';return}
- $('#mAdd').disabled=true;try{await api('movimiento',{mov});$('#mIm').value='';$('#mCo').value='';$('#pmsg').textContent=`${mov.tipo==='gasto'?'Gasto':'Ingreso'} de ${eur(mov.importe)} añadido.`;if(+mov.fecha.slice(0,4)>=FZ.anio-1&&+mov.fecha.slice(0,4)<=FZ.anio)await cargarCaja()}finally{$('#mAdd').disabled=false}}));
+$('#mAdd').addEventListener('click',safe(async()=>{$('#mNota').textContent='Guardando…';const mov={tipo:document.querySelector('input[name=mTipo]:checked').value,fecha:$('#mFe').value,importe:+$('#mIm').value,concepto:$('#mCo').value.trim(),categoria:$('#mCa').value.trim()||(document.querySelector('input[name=mTipo]:checked').value==='ingreso'?'Otros ingresos':'Otros'),metodo:$('#mMe').value};
+ if(!okF(mov.fecha)||!(mov.importe>0)||!mov.concepto){$('#mNota').textContent='Pon fecha, concepto e importe.';return}
+ $('#mAdd').disabled=true;try{await api('movimiento',{mov});$('#mIm').value='';$('#mCo').value='';const ok=`${mov.tipo==='gasto'?'Gasto':'Ingreso'} de ${eur(mov.importe)} añadido.`;if(+mov.fecha.slice(0,4)!==FZ.anio){FZ.anio=+mov.fecha.slice(0,4)}FZ.mes='';await cargarCaja();$('#mNota').textContent=ok+' Ya está sumado arriba.'}finally{$('#mAdd').disabled=false}},'#mNota'));
 $('#rcD').value=ahora().f.slice(0,7);
 $('#rcAdd').addEventListener('click',safe(async()=>{const r={id:nid(),concepto:$('#rcC').value.trim(),categoria:$('#rcK').value.trim()||'Otros',importe:+$('#rcI').value,frecuencia:$('#rcF').value,desde:$('#rcD').value,hasta:$('#rcH').value};
  if(!r.concepto||!(r.importe>0)||!/^\d{4}-\d{2}$/.test(r.desde)){$('#pmsg').textContent='Pon concepto, importe y mes de inicio.';return}if(r.hasta&&r.hasta<r.desde){$('#pmsg').textContent='El mes final es anterior al inicial.';return}
@@ -996,7 +996,7 @@ $('#fCsv').addEventListener('click',()=>{const D=FZ.datos;if(!D)return;const mes
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+L.map(r=>r.map(q).join(';')).join('\r\n')],{type:'text/csv'}));a.download=`caja-${FZ.anio}${mes?'-'+pad(mes):''}.csv`;document.body.appendChild(a);a.click();a.remove()});
 let PT='agenda';try{PT=localStorage.getItem('bonoso_tab')||'agenda'}catch(e){}if(!PTS.includes(PT))PT='agenda';
 $('#pdots').innerHTML=PTS.map(()=>'<i></i>').join('');
-function pestana(t,dir){const prev=PTS.indexOf(PT);PT=t;if(t==='caja')setTimeout(()=>FZ.datos?renderCaja():cargarCaja(),0);const k=PTS.indexOf(t);
+function pestana(t,dir){const prev=PTS.indexOf(PT);PT=t;if(t==='caja')setTimeout(()=>{if(FZ.datos)renderCaja();cargarCaja()},0);const k=PTS.indexOf(t);
  document.querySelectorAll('#ptabs [data-pt]').forEach(b=>{const on=b.dataset.pt===t;b.setAttribute('aria-selected',on);if(on){const c=$('#ptabs');c.scrollTo({left:b.offsetLeft-(c.clientWidth-b.offsetWidth)/2,behavior:'smooth'})}});
  document.querySelectorAll('.ptab').forEach(x=>{x.classList.remove('izq','der');if(x.dataset.pt===t&&dir!==undefined)x.classList.add(k<prev?'izq':'der');x.classList.toggle('on',x.dataset.pt===t)});
  document.querySelectorAll('#pdots i').forEach((d,i)=>d.classList.toggle('on',i===k));
